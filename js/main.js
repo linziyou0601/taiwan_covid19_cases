@@ -119,6 +119,7 @@ function currentLocation() {
         let lon=position.coords.longitude;
         let lat=position.coords.latitude;
         mapView.setCenter(ol.proj.fromLonLat([lon, lat]));
+        mapView.setZoom(12);
     }, (error)=> alert("無法取得您的裝置位置！"));
 }
 
