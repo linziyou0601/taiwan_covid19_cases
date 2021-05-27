@@ -35,7 +35,6 @@ map.addControl(sidebar);
 var townMetadata = {};        
 $.get('https://linziyou0601.github.io/taiwan_covid19_cases/ncov19.json', {}, (ncov19) => {
     townMetadata = ncov19
-    console.log(townMetadata)
     townVector.getSource().refresh();
 })
 
@@ -80,7 +79,6 @@ map.on('singleclick', (e) => {
         var TOWN = townAttr.TOWNNAME;
         var META = townMetadata[COUNTY][TOWN];
         var colorFlag = getColorFlag(META)
-        console.log(townAttr)
 
         // 鄉鎮資料填入
         let detail_table = $($("#detail_table").html().trim());
