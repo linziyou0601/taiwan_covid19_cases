@@ -59,29 +59,30 @@ write_json(ncov19, "ncov19.json")
 # ========== NCOV 19 確診更新日期 ========== #
 now = datetime.now()
 last_download_date = now.strftime("%Y/%m/%d %H:%M:%S")
-response = rq.get("https://nidss.cdc.gov.tw/nndss/DiseaseMap?id=19CoV")
-soup = BeautifulSoup(response.text, "html.parser")
-text = str(soup.select_one("#appendContainer script"))
-matcher = re.search('hmJson.push\((.+?)\);', text)
-if matcher: 
-    hmJson = json.loads(matcher.group(1))
-    data = hmJson["credits_text"]
-    write_json({
-        "ncov19-date": hmJson["credits_text"][15:],
-        "population-date": "2021/04",
-        "last-download-date": last_download_date
-    }, "data_version.json")
+#response = rq.get("https://nidss.cdc.gov.tw/nndss/DiseaseMap?id=19CoV")
+#soup = BeautifulSoup(response.text, "html.parser")
+#text = str(soup.select_one("#appendContainer script"))
+#matcher = re.search('hmJson.push\((.+?)\);', text)
+#if matcher: 
+    #hmJson = json.loads(matcher.group(1))
+    #date = hmJson["credits_text"][15:]
+
+write_json({
+    "ncov19-date": "每日清晨",
+    "population-date": "2021/04",
+    "last-download-date": last_download_date
+}, "data_version.json")
 
 
-    repo_dir = 'C:\\github_workspace\\taiwan_covid19_cases'
-    repo = Repo(repo_dir)
-    file_list = [
-        'C:\\github_workspace\\taiwan_covid19_cases\\data_version.json',
-        'C:\\github_workspace\\taiwan_covid19_cases\\ncov19.json',
-        'C:\\github_workspace\\taiwan_covid19_cases\\population.json'
-    ]
-    commit_message = f"autocommit@{last_download_date}"
-    repo.index.add(file_list)
-    repo.index.commit(commit_message)
-    origin = repo.remote('origin')
-    origin.push()
+repo_dir = 'C:\\github_workspace\\taiwan_covid19_cases'
+repo = Repo(repo_dir)
+file_list = [
+    'C:\\github_workspace\\taiwan_covid19_cases\\data_version.json',
+    'C:\\github_workspace\\taiwan_covid19_cases\\ncov19.json',
+    'C:\\github_workspace\\taiwan_covid19_cases\\population.json'
+]
+commit_message = f"autocommit@{last_download_date}"
+repo.index.add(file_list)
+repo.index.commit(commit_message)
+origin = repo.remote('origin')
+origin.push()

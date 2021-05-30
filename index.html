@@ -92,6 +92,7 @@
                     <p>* 鄉鎮人口統計資料來源為「內政部戶政司 <a href="https://data.moi.gov.tw/MoiOD/Data/DataDetail.aspx?oid=53F23080-FC71-4479-A19C-61C61A77D1D0" target="_blank">動態資料統計表</a>」。</p>
                     <p>* 本土個案更新時間：<span id="ncov19-date"></span></p>
                     <p>* 人口資料更新時間：<span id="population-date"></span></p>
+                    <p>* 資料自動下載時間：<span id="last-download-date"></span></p>
                 </div>
             </div>
 
@@ -129,6 +130,7 @@
         $.get('https://linziyou0601.github.io/taiwan_covid19_cases/data_version.json', {}, (data) => {
             $("#ncov19-date").html(`${data["ncov19-date"]}`)
             $("#population-date").html(`${data["population-date"]}`)
+            $("#last-download-date").html(`${data["last-download-date"]}`)
         });
     </script>
 </body>
