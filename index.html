@@ -42,18 +42,33 @@
             font-weight: 700 !important;
         }
         .stl2{
+            background-color: #90B44B !important;
+            color: #616138 !important;
+            font-weight: 700 !important;
+        }
+        .stl3{
             background-color: #ECB88A !important;
             color: #8C2E33 !important;
             font-weight: 700 !important;
         }
-        .stl3{
+        .stl4{
             background-color: #F19483 !important;
             color: #6B2327 !important;
             font-weight: 700 !important;
         }
-        .stl4{
+        .stl5{
             background-color: #BF6766 !important;
             color: #E0CCC3 !important;
+            font-weight: 700 !important;
+        }
+        .stl6{
+            background-color: #70649A !important;
+            color: #BEB6DB !important;
+            font-weight: 700 !important;
+        }
+        .stl7{
+            background-color: #3C2F41 !important;
+            color: #BEB6DB !important;
             font-weight: 700 !important;
         }
     </style>
@@ -119,6 +134,7 @@
             <div class="px-4 py-2 text-kon fw-bold text-center" style="font-size: 2.5rem;"><span name="pops-text"></span></div>
             <div class="mt-3 px-4 py-2 rounded-pill text-center" name="ratio-tit">每萬人確診比率</div>
             <div class="px-4 py-2 text-kon fw-bold text-center" style="font-size: 2.5rem;"><span name="ratio-text"></span></div>
+            <canvas class="example" width="500" height="400"></canvas>
         </div>
     </template>
     
@@ -126,6 +142,7 @@
     <script src="./js/ol5-sidebar.js"></script>
     <script src="./js/jquery-3.6.0.min.js"></script>
     <script src="./js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
     <script type="text/javascript">
         $.get('https://linziyou0601.github.io/taiwan_covid19_cases/data_version.json', {}, (data) => {
             $("#ncov19-date").html(`${data["ncov19-date"]}`)

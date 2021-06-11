@@ -88,6 +88,33 @@ map.on('singleclick', (e) => {
         detail_table.find("[name='pops-text']").html(`${META.population.toString()}`);
         detail_table.find("[name='ratio-tit']").attr("class", `mt-3 px-4 py-2 rounded-pill text-center stl${colorFlag}`);
         detail_table.find("[name='ratio-text']").html(`${META.ratio.toString()} ‱`);
+
+        // 圖表繪製
+        var ctx = detail_table.find(".example");
+        var chart = new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: townMetadata[COUNTY][TOWN]["charts"]["labels"].map((val, ind, arr)=>val.substring(4)),
+                datasets: [
+                    {
+                        type: "line",
+                        backgroundColor: "rgba(240, 60, 53, 0.1)",
+                        borderColor: "#F03C35",
+                        data: townMetadata[COUNTY][TOWN]["charts"]["lines"],
+                        lineTension: 0, // 曲線的彎度，設 0 表示直線
+                        fill: true, // 是否填滿色彩
+                        label: "七日平均"
+                    },
+                    {
+                        type: "bar",
+                        backgroundColor: "#4867F0",
+                        data: townMetadata[COUNTY][TOWN]["charts"]["bars"],
+                        label: "每日個案"
+                    }
+                ]
+            }
+        });
+
         $("#sidbar-title").html(COUNTY+" "+TOWN);
         $("#detail-content").empty().append(detail_table);
 
@@ -97,10 +124,13 @@ map.on('singleclick', (e) => {
 });
 
 /* 依個案數設定顏色 */
-fillColor = ['#FFFFFB', '#FAD689', '#ECB88A', '#F19483', '#BF6766'];
-textColor = ['#373C38', '#87522D', '#8C2E33', '#6B2327', '#E0CCC3'];
+fillColor = ['#FFFFFB', '#90B44B', '#FAD689', '#ECB88A', '#F19483', '#BF6766', '#70649A', '#3C2F41'];
+textColor = ['#373C38', '#616138', '#87522D', '#8C2E33', '#6B2327', '#E0CCC3', '#BEB6DB', '#BEB6DB'];
 function getColorFlag(META) {
     switch(true) {
+        case META.ratio > 40: return 7;
+        case META.ratio > 30: return 6;
+        case META.ratio > 20: return 5;
         case META.ratio > 10: return 4;
         case META.ratio > 5:  return 3;
         case META.ratio > 1:  return 2;
