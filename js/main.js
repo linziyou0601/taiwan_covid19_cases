@@ -90,8 +90,8 @@ map.on('singleclick', (e) => {
         detail_table.find("[name='ratio-text']").html(`${META.ratio.toString()} ‱`);
 
         // 圖表繪製
-        var ctx = detail_table.find(".example");
-        var chart = new Chart(ctx, {
+        var ctx = detail_table.find(".charts");
+        new Chart(ctx, {
             type: "bar",
             data: {
                 labels: townMetadata[COUNTY][TOWN]["charts"]["labels"].map((val, ind, arr)=>val.substring(4)),
