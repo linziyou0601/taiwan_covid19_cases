@@ -54,7 +54,7 @@ function townStyle(town) {
     var strokeColor = (TOWN === SELTOWN)? '#8C2E33': '#666666';
     var baseStyle = new ol.style.Style({
         stroke: new ol.style.Stroke({ color: strokeColor, width: strokeWidth }),
-        fill: new ol.style.Fill({ color: fillColor[colorFlag]+(osmMapVector.getVisible()? "44": "") }),
+        fill: new ol.style.Fill({ color: fillColor[colorFlag]+(osmMapVector.getVisible()? "66": "") }),
         text: new ol.style.Text({
             font: '500 14px "Poppins", "Noto Sans TC", "sans-serif"',
             fill: new ol.style.Fill({ color: textColor[colorFlag] })
@@ -65,6 +65,7 @@ function townStyle(town) {
     return baseStyle;
 }
 
+/* ----------------------------------------------------------------------------------------------------*/
 /* 點擊鄉鎮區塊時 */
 map.on('singleclick', (e) => {
     map.forEachFeatureAtPixel(e.pixel, function (town, layer) {
@@ -72,6 +73,7 @@ map.on('singleclick', (e) => {
         if(selectedTown) selectedTown.setStyle(townStyle);
         selectedTown = town;
         selectedTown.setStyle(townStyle);
+        moveFeatureTop(selectedTown);
 
         // 取得該鄉鎮資料
         var townAttr = town.getProperties();
@@ -92,7 +94,6 @@ map.on('singleclick', (e) => {
         // 圖表繪製
         var ctx = detail_table.find(".charts");
         new Chart(ctx, {
-            type: "bar",
             data: {
                 labels: townMetadata[COUNTY][TOWN]["charts"]["labels"].map((val, ind, arr)=>val.substring(4)),
                 datasets: [
@@ -112,6 +113,14 @@ map.on('singleclick', (e) => {
                         label: "每日個案"
                     }
                 ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        suggestedMin: 50,
+                        suggestedMax: 100
+                    }
+                }
             }
         });
 
@@ -124,8 +133,8 @@ map.on('singleclick', (e) => {
 });
 
 /* 依個案數設定顏色 */
-fillColor = ['#FFFFFB', '#90B44B', '#FAD689', '#ECB88A', '#F19483', '#BF6766', '#70649A', '#3C2F41'];
-textColor = ['#373C38', '#616138', '#87522D', '#8C2E33', '#6B2327', '#E0CCC3', '#BEB6DB', '#BEB6DB'];
+fillColor = ['#FFFFFB', '#b5caa0', '#d9cd90', '#ecb88a', '#f19483', '#d05a6e', '#8f77b5', '#533d5b'];
+textColor = ['#373C38', '#466428', '#71610e', '#914603', '#ac2d16', '#fad8de', '#dfd5ef', '#d2c4d7'];
 function getColorFlag(META) {
     switch(true) {
         case META.ratio > 40: return 7;
@@ -138,6 +147,29 @@ function getColorFlag(META) {
         default: return 0;
     }
 }
+
+/* ----------------------------------------------------------------------------------------------------*/
+/* 取得townVector的所有features */
+var closurePropertyUid = "ol_uid";
+function getSortedFeatures() {
+    return townVector.getSource().getFeatures().sort((a, b) => parseInt(a[closurePropertyUid]) - parseInt(b[closurePropertyUid]));
+};
+
+/* 將a Feature換到 b Feature的位置 */
+function swapFeaturesUids(a, b) {
+    [a[closurePropertyUid], b[closurePropertyUid]] = [b[closurePropertyUid], a[closurePropertyUid]];
+};
+
+/* 將 Feature移到最上層 */
+function moveFeatureTop(feature) {
+    var features = getSortedFeatures();
+    var ind = features.indexOf(feature);
+    if (ind !== -1 && ind < features.length - 1 && features.length > 1) {
+        swapFeaturesUids(features[ind], features[features.length - 1]);
+        townVector.getSource().changed();
+    }
+};
+
 
 /* ----------------------------------------------------------------------------------------------------*/
 /* 取得目前位置 */
