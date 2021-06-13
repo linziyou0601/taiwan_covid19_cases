@@ -117,8 +117,8 @@ map.on('singleclick', (e) => {
             options: {
                 scales: {
                     y: {
-                        suggestedMin: 50,
-                        suggestedMax: 100
+                        suggestedMin: 0,
+                        suggestedMax: 200
                     }
                 }
             }
