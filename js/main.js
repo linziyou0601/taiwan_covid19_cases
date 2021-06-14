@@ -135,15 +135,18 @@ map.on('singleclick', (e) => {
 /* 依個案數設定顏色 */
 fillColor = ['#FFFFFB', '#b5caa0', '#d9cd90', '#ecb88a', '#f19483', '#d05a6e', '#8f77b5', '#533d5b'];
 textColor = ['#373C38', '#466428', '#71610e', '#914603', '#ac2d16', '#fad8de', '#dfd5ef', '#d2c4d7'];
+casesColorFlag = "TOTAL"
 function getColorFlag(META) {
+    val = (casesColorFlag=="TOTAL")? META.ratio: META.charts.lines[29]
+    val = (casesColorFlag=="TOTAL" && META.ratio<=1 && META.cases > 0)? META.cases: val
     switch(true) {
-        case META.ratio > 40: return 7;
-        case META.ratio > 30: return 6;
-        case META.ratio > 20: return 5;
-        case META.ratio > 10: return 4;
-        case META.ratio > 5:  return 3;
-        case META.ratio > 1:  return 2;
-        case META.cases > 0:  return 1;
+        case val > 40: return 7;
+        case val > 30: return 6;
+        case val > 20: return 5;
+        case val > 10: return 4;
+        case val > 5:  return 3;
+        case val > 1:  return 2;
+        case val > 0:  return 1;
         default: return 0;
     }
 }
@@ -186,5 +189,11 @@ function currentLocation() {
 /* 顯示/隱藏 OSM 地圖 */
 function toogleOSM() {
     osmMapVector.setVisible(!osmMapVector.getVisible());
+    townVector.setStyle(townStyle);
+}
+
+/* 顯示 個案總數/過去七日平均個案數 */
+function toogleCases() {
+    casesColorFlag = (casesColorFlag=="TOTAL")? "7MA": "TOTAL";
     townVector.setStyle(townStyle);
 }
