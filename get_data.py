@@ -34,11 +34,11 @@ Age_County_Gender_19Cov = resp.json()
 
 # 初始化
 ncov19 = read_json("population.json")
-labels = [str((datetime.today() - timedelta(days=i)).strftime("%Y%m%d")) for i in range(30, 0, -1)]
+labels = [str((datetime.today() - timedelta(days=i)).strftime("%Y%m%d")) for i in range(36, 0, -1)]
 for COUNTY, TOWNS in ncov19.items():
     TOWNS["其他"] = 0
     for TOWN, population in TOWNS.items():
-        ncov19[COUNTY][TOWN] = { "population": population, "cases": 0, "ratio": 0, "charts": {"labels": labels, "bars": [0]*30, "lines": [0]*30} }
+        ncov19[COUNTY][TOWN] = { "population": population, "cases": 0, "ratio": 0, "charts": {"labels": labels, "bars": [0]*36, "lines": [0]*36} }
 
 # 統計
 total = 0
@@ -59,8 +59,11 @@ print(total)
 for COUNTY, TOWNS in ncov19.items():
     for TOWN, val in TOWNS.items():
         if val["population"]!=0: ncov19[COUNTY][TOWN]["ratio"] = int(val["cases"]/val["population"]*100000+0.5)/10
-        for ind in range(0, 30): 
+        for ind in range(0, 36): 
             if ind >= 6: ncov19[COUNTY][TOWN]["charts"]["lines"][ind] = round(sum(ncov19[COUNTY][TOWN]["charts"]["bars"][ind-6:ind+1])/7, 2)
+        val["charts"]["labels"] = val["charts"]["labels"][6:]
+        val["charts"]["bars"]   = val["charts"]["bars"][6:]
+        val["charts"]["lines"]  = val["charts"]["lines"][6:]
 write_json(ncov19, "ncov19.json")
 
 
@@ -76,15 +79,15 @@ write_json({
 
 
 # ========== 自動上傳Github ========== #
-repo_dir = 'C:\\github_workspace\\taiwan_covid19_cases'
-repo = Repo(repo_dir)
-file_list = [
-    'C:\\github_workspace\\taiwan_covid19_cases\\data_version.json',
-    'C:\\github_workspace\\taiwan_covid19_cases\\ncov19.json',
-    'C:\\github_workspace\\taiwan_covid19_cases\\population.json'
-]
-commit_message = f"autocommit@{last_download_date}"
-repo.index.add(file_list)
-repo.index.commit(commit_message)
-origin = repo.remote('origin')
-origin.push()
+# repo_dir = 'C:\\github_workspace\\taiwan_covid19_cases'
+# repo = Repo(repo_dir)
+# file_list = [
+#     'C:\\github_workspace\\taiwan_covid19_cases\\data_version.json',
+#     'C:\\github_workspace\\taiwan_covid19_cases\\ncov19.json',
+#     'C:\\github_workspace\\taiwan_covid19_cases\\population.json'
+# ]
+# commit_message = f"autocommit@{last_download_date}"
+# repo.index.add(file_list)
+# repo.index.commit(commit_message)
+# origin = repo.remote('origin')
+# origin.push()
