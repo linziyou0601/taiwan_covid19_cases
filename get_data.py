@@ -50,8 +50,8 @@ for record in Age_County_Gender_19Cov:
     ncov19[COUNTY][TOWN]["cases"] += int(record["確定病例數"])
     total += int(record["確定病例數"])
     # 每日病歷統計
-    if record["個案研判日"] not in ncov19[COUNTY][TOWN]["charts"]["labels"]: continue
-    ind = ncov19[COUNTY][TOWN]["charts"]["labels"].index(record["個案研判日"])
+    if record["個案研判日"].replace("/","") not in ncov19[COUNTY][TOWN]["charts"]["labels"]: continue
+    ind = ncov19[COUNTY][TOWN]["charts"]["labels"].index(record["個案研判日"].replace("/",""))
     ncov19[COUNTY][TOWN]["charts"]["bars"][ind] += int(record["確定病例數"])
 print(total)
 
@@ -76,15 +76,15 @@ write_json({
 
 
 # ========== 自動上傳Github ========== #
-repo_dir = 'C:\\github_workspace\\taiwan_covid19_cases'
-repo = Repo(repo_dir)
-file_list = [
-    'C:\\github_workspace\\taiwan_covid19_cases\\data_version.json',
-    'C:\\github_workspace\\taiwan_covid19_cases\\ncov19.json',
-    'C:\\github_workspace\\taiwan_covid19_cases\\population.json'
-]
-commit_message = f"autocommit@{last_download_date}"
-repo.index.add(file_list)
-repo.index.commit(commit_message)
-origin = repo.remote('origin')
-origin.push()
+# repo_dir = 'C:\\github_workspace\\taiwan_covid19_cases'
+# repo = Repo(repo_dir)
+# file_list = [
+#     'C:\\github_workspace\\taiwan_covid19_cases\\data_version.json',
+#     'C:\\github_workspace\\taiwan_covid19_cases\\ncov19.json',
+#     'C:\\github_workspace\\taiwan_covid19_cases\\population.json'
+# ]
+# commit_message = f"autocommit@{last_download_date}"
+# repo.index.add(file_list)
+# repo.index.commit(commit_message)
+# origin = repo.remote('origin')
+# origin.push()
