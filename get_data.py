@@ -15,7 +15,7 @@ def read_json(filename=''):
 population = {}
 total = 0
 for page in range(1,5):
-    resp = rq.get(url=f'https://www.ris.gov.tw/rs-opendata/api/v1/datastore/ODRP061/11004?page={page}')
+    resp = rq.get(url=f'https://www.ris.gov.tw/rs-opendata/api/v1/datastore/ODRP061/11006?page={page}')
     responseData = resp.json()["responseData"]
     for item in responseData:
         COUNTY = item["site_id"][:3].replace("台", "臺")
