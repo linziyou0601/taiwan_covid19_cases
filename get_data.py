@@ -19,7 +19,7 @@ for page in range(1,5):
     responseData = resp.json()["responseData"]
     for item in responseData:
         COUNTY = item["site_id"][:3].replace("台", "臺")
-        TOWN = item["site_id"][3:].replace("台", "臺")
+        TOWN = item["site_id"][3:].replace("台", "臺").replace(u"\u3000", u"")
         if COUNTY not in population: population[COUNTY] = {}
         if TOWN not in population[COUNTY]: population[COUNTY][TOWN] = 0
         population[COUNTY][TOWN] += int(item["people_total"])
@@ -46,7 +46,7 @@ for record in Age_County_Gender_19Cov:
     # 總病歷統計
     if record["縣市"]=="空值" or record["是否為境外移入"]=="是": continue
     COUNTY = record["縣市"].replace("台", "臺")
-    TOWN = record["鄉鎮"].replace("台", "臺")
+    TOWN = record["鄉鎮"].replace("台", "臺").replace(u"\u3000", u"")
     ncov19[COUNTY][TOWN]["cases"] += int(record["確定病例數"])
     total += int(record["確定病例數"])
     # 每日病歷統計
