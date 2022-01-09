@@ -73,7 +73,7 @@ last_download_date = now.strftime("%Y/%m/%d %H:%M:%S")
 
 write_json({
     "ncov19-date": "每日清晨",
-    "population-date": "2021/04",
+    "population-date": "2021/11",
     "last-download-date": last_download_date
 }, "data_version.json")
 
