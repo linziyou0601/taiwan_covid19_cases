@@ -87,7 +87,7 @@ file_list = [
     'C:\\github_workspace\\taiwan_covid19_cases\\population.json'
 ]
 commit_message = f"autocommit@{last_download_date}"
-repo.index.add(file_list)
+repo.git.add(A=True)
 repo.index.commit(commit_message)
 origin = repo.remote('origin')
 origin.push()
