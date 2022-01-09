@@ -15,7 +15,7 @@ def read_json(filename=''):
 population = {}
 total = 0
 for page in range(1,5):
-    resp = rq.get(url=f'https://www.ris.gov.tw/rs-opendata/api/v1/datastore/ODRP061/11011?page={page}')
+    resp = rq.get(url=f'https://www.ris.gov.tw/rs-opendata/api/v1/datastore/ODRP061/11009?page={page}')
     responseData = resp.json()["responseData"]
     for item in responseData:
         COUNTY = item["site_id"][:3].replace("台", "臺")
@@ -73,7 +73,7 @@ last_download_date = now.strftime("%Y/%m/%d %H:%M:%S")
 
 write_json({
     "ncov19-date": "每日清晨",
-    "population-date": "2021/11",
+    "population-date": "2021/04",
     "last-download-date": last_download_date
 }, "data_version.json")
 
